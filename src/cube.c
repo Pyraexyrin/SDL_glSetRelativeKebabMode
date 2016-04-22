@@ -171,7 +171,7 @@ get_size_Cube (Cube cube) {
 }
 
 void
-display_Cube (Cube cube, mat4 projection, mat4 modelview) {
+display_Cube (Cube cube, glm::mat4 projection, glm::mat4 modelview) {
 
   // CHARGER LE SHADER
   glUseProgram( cube->shader );

@@ -2,15 +2,14 @@
 #include <stdbool.h>
 #include "sceneOpenGL.h"
 #include "cube.h"
+#include "camera.h"
 
-//#define GLEW_STATIC
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 
   // Je m'excuse d'avance pour cette chose ignoble : du C++ dans du C.
   // Cependant, c'est le seul moyen de faire fonctionner tout ça.
-  // OpenGL semble vraiment fait pour du C++. Sans le namespace, je devrais
-  // mettre les glm:: partout, c'est moins moche comme ça.
+  // OpenGL semble vraiment fait pour du C++.
 
 using namespace glm;
 
@@ -33,11 +32,7 @@ main_loop (SceneOpenGL scene){
   projection = perspective(70.0, (double) WINDOW_WIDTH / WINDOW_HEIGHT, 1.0, 100.0);
   modelview = mat4(1.0);
   
-  // Transformations
-  // rotate en radians !
-  //modelview = translate(modelview, vec3(0.4, 0.0, 0.0));
-  //modelview = rotate(modelview, 3.1416f, vec3(0.0, 0.0, 1.0));
-  //modelview = scale(modelview, vec3(1.0/2, 1.0/2, 1.0));
+  Camera cam = create_Camera(vec3(0.0, 3.0, 3.0), vec3(0, 0, 0), vec3(0, 1, 0));
 
   // create_Cube(size, x, y, z, vert, frag)
   Cube cube1 = create_Cube( 1.0, -1.5, 0.0, 0.0, "Shaders/couleur3D.vert", "Shaders/couleur3D.frag" );
@@ -46,42 +41,49 @@ main_loop (SceneOpenGL scene){
   float angle_x = 0.0f;
   float angle_y = 0.0f;
   float angle_z = 0.0f;
+  float scale = 1.0f;
 
   Events events = get_events_SOGL( scene );
+  display_cursor_Events(false);
+  capture_cursor_Events(true);
 
   while( !terminate_Events( events ) ) {
 
     // Starting routine
     start_loop = SDL_GetTicks();
 
-
-
-
-
     update_Events( events );
 
-    //if (is_pressed_key_Events( events, SDL_SCANCODE_ESCAPE ))
+    if (is_pressed_key_Events( events, SDL_SCANCODE_ESCAPE ))
       // Quit
+      break;
 
-    if (is_pressed_key_Events( events, SDL_SCANCODE_W )) // ATTENTION, CLAVIER QWERTY !
+    if (is_pressed_key_Events( events, SDL_SCANCODE_O )) // ATTENTION, CLAVIER QWERTY !
       angle_x -= 0.02f;
 
-    if (is_pressed_key_Events( events, SDL_SCANCODE_S ))
+    if (is_pressed_key_Events( events, SDL_SCANCODE_L ))
       angle_x += 0.02f;
 
-    if (is_pressed_key_Events( events, SDL_SCANCODE_A ))
+    if (is_pressed_key_Events( events, SDL_SCANCODE_K ))
       angle_y -= 0.02f;
 
-    if (is_pressed_key_Events( events, SDL_SCANCODE_D ))
+    if (is_pressed_key_Events( events, SDL_SCANCODE_SEMICOLON ))
       angle_y += 0.02f;
 
-    if (is_pressed_key_Events( events, SDL_SCANCODE_Q ))
+    if (is_pressed_key_Events( events, SDL_SCANCODE_P ))
       angle_z -= 0.02f;
 
-    if (is_pressed_key_Events( events, SDL_SCANCODE_E ))
+    if (is_pressed_key_Events( events, SDL_SCANCODE_I ))
       angle_z += 0.02f;
 
+    if (is_pressed_key_Events( events, SDL_SCANCODE_LSHIFT )
+      || is_pressed_key_Events( events, SDL_SCANCODE_RSHIFT))
+      scale -= 0.01f;
 
+    if (is_pressed_key_Events( events, SDL_SCANCODE_SPACE ))
+      scale += 0.01f;
+
+    move_Camera(cam, events);
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -93,6 +95,7 @@ main_loop (SceneOpenGL scene){
       modelview = rotate(modelview, angle_x, vec3(1.0, 0.0, 0.0));
       modelview = rotate(modelview, angle_y, vec3(0.0, 1.0, 0.0));
       modelview = rotate(modelview, angle_z, vec3(0.0, 0.0, 1.0));
+      modelview = glm::scale(modelview, vec3(scale, scale, scale));
       modelview = translate(modelview, vec3(1.0, -0.5, -0.5));
 
       display_Cube(cube1, projection, modelview);
@@ -103,14 +106,14 @@ main_loop (SceneOpenGL scene){
       modelview = rotate(modelview, angle_x, vec3(1.0, 0.0, 0.0));
       modelview = rotate(modelview, angle_y, vec3(0.0, 1.0, 0.0));
       modelview = rotate(modelview, angle_z, vec3(0.0, 0.0, 1.0));
+      modelview = glm::scale(modelview, vec3(scale, scale, scale));
       modelview = translate(modelview, vec3(-1.0, -0.5, -0.5));
 
       display_Cube(cube2, projection, modelview);
 
     modelview = modelview_backup;
 
-    modelview = lookAt(vec3(0.0, 3.0, 3.0), vec3(0, 0, 0), vec3(0, 1, 0));
-    
+    lookAt_Camera(cam, &modelview);
 
 
 

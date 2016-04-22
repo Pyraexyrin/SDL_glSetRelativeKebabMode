@@ -1,3 +1,6 @@
+#ifndef EVENTS_H
+#define EVENTS_H
+
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 
@@ -74,3 +77,5 @@ display_cursor_Events (bool wanna_display_cursor);
 
 void
 capture_cursor_Events (bool wanna_capture_cursor);
+
+#endif

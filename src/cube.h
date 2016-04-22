@@ -17,8 +17,6 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-using namespace glm;
-
 ////////////
 // STRUCT //
 ////////////
@@ -33,6 +31,7 @@ struct cube {
   
 };
 
+//GLuint setShaders( const char * VERT, const char * FRAG );
 ////////////
 // CREATE //
 ////////////
@@ -65,4 +64,4 @@ float
 get_size_Cube (Cube cube);
 
 void
-display_Cube (Cube cube, mat4 projection, mat4 modelview);
+display_Cube (Cube cube, glm::mat4 projection, glm::mat4 modelview);

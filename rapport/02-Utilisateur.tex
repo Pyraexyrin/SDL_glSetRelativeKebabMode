@@ -11,16 +11,16 @@ Du coup, comment décrire les mouvements du cube ? Eh bien, le mouvement "F" ind
 \begin{center}
 \includegraphics[width=250pt]{Rubik2.jpg}
 \end{center}
-C'est avec cette notation qu'on décrira les interactions que l'utilisateur aura avec la scène. Actuellement, voici l'association entre les touches du clavier et les mouvements décrits précédemment :
+C'est avec cette notation qu'on décrira les interactions que l'utilisateur aura avec la scène. Évidemment, il s'agit des mouvements par rapport au repère de l'espace, et non pas de la caméra. Si vous vous placez derrière les cubes, tout sera inversé !
 \\\\
-\begin{tabular}{| c | c |}
+\begin{tabular}{| c | c || c | c |}
 	\hline
-	Touche & Mouvement \\
+	Touche & Caméra & Touche & Cube\\
 	\hline \hline
-	A & Back \\ \hline
-	E & Front \\ \hline
-	Q & Up \\ \hline
-	D & Down \\ \hline
-	Z & Right \\ \hline
-	S & Left \\ \hline
+	Z & Avancer & O & Right \\ \hline
+	Q & Gauche & K & Up\\ \hline
+	S & Reculer & L & Left\\ \hline
+	D & Droite & M & Down\\ \hline
+	&& I & Back\\ \hline
+	&& P & Front\\ \hline
 \end{tabular}

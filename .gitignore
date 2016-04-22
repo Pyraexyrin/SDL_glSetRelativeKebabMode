@@ -35,3 +35,5 @@ cmp
 *.gz
 *.aux
 *.log
+*2D*
+*exture*
