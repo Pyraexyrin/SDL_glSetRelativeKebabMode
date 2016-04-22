@@ -31,3 +31,7 @@
 
 main
 cmp
+*.toc
+*.gz
+*.aux
+*.log
